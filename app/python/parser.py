@@ -29,7 +29,7 @@ def parse_and_insert_data(data):
         preferences = UserPreferences(timezone=user_data["user_timezone"])
 
         user = User(
-            username=user_data["user"],
+            username=" ".join(user_data["user"].split("_")[:2]).title(),
             password=user_data["password"],
             roles=roles,
             preferences=preferences.timezone,
