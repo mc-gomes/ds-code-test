@@ -1,18 +1,12 @@
-
-/**
- * router/index.ts
- *
- * Automatic routes for `./src/pages/*.vue`
- */
-
-// Composables
 import { createRouter, createWebHistory } from 'vue-router/auto'
 import UsersList from '@/components/UsersList.vue';
+import UserPage from '@/components/UserPage.vue';
 import HelloWorld from '@/components/HelloWorld.vue';
 
 const routes = [
   { path: '/', component: HelloWorld },
-  { path: '/user/', component: UsersList },
+  { path: '/users', component: UsersList },
+  { path: '/users/:id', component: UserPage, props: true },
 ];
 
 const router = createRouter({

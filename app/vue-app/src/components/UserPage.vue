@@ -2,20 +2,18 @@
   <v-container>
     <v-card>
       <v-card-title class="d-flex justify-space-between">
-        <span>Users List</span>
-        <v-btn color="primary" @click="openCreateDialog">New user</v-btn>
+        <span>User Page</span>
+        <v-btn color="primary" @click="returnToMainList">Return</v-btn>
       </v-card-title>
 
       <v-data-table
         :headers="headers"
-        :items="users"
+        :items="[users]"
         :loading="loading"
         class="elevation-1"
       >
         <template v-slot:item.username="{ item }">
-          <router-link :to="`/users/${item._id}`" class="text-primary">
             {{ item.username }}
-          </router-link>
         </template>
 
         <template v-slot:item.roles="{ item }">
@@ -74,15 +72,16 @@
     </v-dialog>
   </v-container>
 </template>
-
+  
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 
 
 const users = ref([])
 const loading = ref(false)
+const route = useRoute()
 const router = useRouter()
 
 
@@ -90,7 +89,7 @@ const editDialog = ref(false)
 const deleteDialog = ref(false)
 const selectedUser = ref({})
 const rolesOptions = ref(['admin', 'manager', 'user'])
-
+  
 
 const headers = ref([
   { title: 'Username', key: 'username' },
@@ -100,12 +99,12 @@ const headers = ref([
   { title: 'Created at', key: 'created_ts' },
   { title: 'Actions', key: 'actions', sortable: false },
 ])
-
-
+  
+  
 const fetchUsers = async () => {
   loading.value = true
   try {
-    const response = await axios.get('http://localhost:5000/users')
+    const response = await axios.get(`http://localhost:5000/users/${route.params.id}`)
     users.value = response.data
   } catch (error) {
     console.error('Error fetching users:', error)
@@ -114,31 +113,33 @@ const fetchUsers = async () => {
   }
 }
 
+const returnToMainList = () => {
+  router.push("/users");
+};
+
 const openEditDialog = (user) => {
   selectedUser.value = { ...user }
   editDialog.value = true
 }
 
-const updateUser = () => {
-  alert('Feature not implemented yet.')
+
+const updateUser = async () => {
+    alert('Feature not implemented yet.')
 }
 
-// Abrir modal de exclusão
+
 const confirmDelete = (user) => {
   selectedUser.value = user
   deleteDialog.value = true
 }
+  
 
-// Excluir usuário
 const deleteUser = async () => {
-  alert('Feature not implemented yet.')
-}
-
-const openCreateDialog = () => {
-  alert('Feature not implemented yet.')
+    alert('Feature not implemented yet.')
 }
 
 // Fetch users on mounting the component
 onMounted(fetchUsers)
 </script>
-
+  
+  
