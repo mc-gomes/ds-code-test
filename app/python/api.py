@@ -31,5 +31,10 @@ def get_user(user_id):
         return ("User not found", 404)
 
 
+@app.route("/users/<user_id>", methods=["DELETE"])
+def delete_user(user_id):
+    collection.delete_one({"_id": ObjectId(user_id)})
+    return jsonify({"message": "User deleted successfully"})
+
 if __name__ == "__main__":
     app.run(debug=True)

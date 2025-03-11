@@ -62,7 +62,7 @@
       <v-card>
         <v-card-title>Confirm</v-card-title>
         <v-card-text>
-          Are you sure you want to delete the user <strong>{{ selectedUser.username }}</strong>?
+          Are you sure you want to delete user <strong>{{ selectedUser.username }}</strong>?
         </v-card-text>
         <v-card-actions>
           <v-btn @click="deleteDialog = false">Cancel</v-btn>
@@ -132,10 +132,16 @@ const confirmDelete = (user) => {
   selectedUser.value = user
   deleteDialog.value = true
 }
-  
 
 const deleteUser = async () => {
-    alert('Feature not implemented yet.')
+    try {
+        await axios.delete(`http://localhost:5000/users/${selectedUser.value._id}`)
+        fetchUsers()
+        deleteDialog.value = false
+        router.push("/users");
+    } catch (error) {
+        console.error('Error deleting user:', error)
+    }
 }
 
 // Fetch users on mounting the component
